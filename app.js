@@ -55,6 +55,13 @@ app.get('/api/customer/:id/name', async (req, res) => {
   console.log(req.params,req.query);
   try {
     let customer = await db.getCustomer(req.params.id);
+    if(!customer.name){
+      res.status(400).json({
+        success:false,
+        message:"Customer has no name"
+      });
+      return;
+    }
     res.json({
       success:true,
       name:customer.name
@@ -72,6 +79,13 @@ app.get('/api/customer/:id/name', async (req, res) => {
 
 app.post('/api/customer/:id/:name', async (req, res) => {
   console.log(req.params,req.body);
+  if(!req.body.name){
+    res.status(400).json({
+      success:false,
+      message:"No name provided"
+    });
+    return;
+  }
   try {
     let customerWithId = await db.updateCustomer(req.params.id,{name:req.body.name});
     res.json({
@@ -92,6 +106,13 @@ app.get('/api/customer/:id/address', async (req, res) => {
   console.log(req.params,req.query); 
   try {
     let customer = await db.getCustomer(req.params.id);
+    if(!customer.address){
+      res.status(400).json({
+        success:false,
+        message:"Customer has no address"
+      });
+      return;
+    }
     res.json({
       success:true,
       address:customer.address
@@ -101,7 +122,7 @@ app.get('/api/customer/:id/address', async (req, res) => {
     res.status(400).json({
       success:false,
       error:err,
-      message:"failed to get customer info"
+      message:"Failed to get customer info"
     });
     return;
   }  
@@ -109,6 +130,13 @@ app.get('/api/customer/:id/address', async (req, res) => {
 
 app.post('/api/customer/:id/:address', async (req, res) => {
   console.log(req.params,req.body);
+  if(!req.body.address){
+    res.status(400).json({
+      success:false,
+      message:"No address provided"
+    });
+    return;
+  }
   try {
     let customerWithId = await db.updateCustomer(req.params.id,{address:req.body.address});
     res.json({
