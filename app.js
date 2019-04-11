@@ -13,8 +13,6 @@ app.use(bodyParser.json());
 const db = require('./lib/db');
 
 
-
-
 app.get('/api/customer/:id', async (req, res) => {
   console.log(req.params,req.query);
   try {
@@ -73,7 +71,21 @@ app.get('/api/customer/:id/name', async (req, res) => {
 });
 
 app.post('/api/customer/:id/:name', async (req, res) => {
-  console.log(req.params,req.body);  
+  console.log(req.params,req.body);
+  try {
+    let customerWithId = await db.updateCustomer(req.params.id,{name:req.body.name});
+    res.json({
+      success:true,
+      customer:customerWithId
+    });
+  }catch(err){
+    res.status(400).json({
+      success:false,
+      error:err,
+      message:"failed to update customer"
+    });
+    return;
+  }
 });
 
 app.get('/api/customer/:id/address', async (req, res) => {
