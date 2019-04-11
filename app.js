@@ -77,7 +77,7 @@ app.get('/api/customer/:id/name', async (req, res) => {
   }    
 });
 
-app.post('/api/customer/:id/:name', async (req, res) => {
+app.post('/api/customer/:id/name', async (req, res) => {
   console.log(req.params,req.body);
   if(!req.body.name){
     res.status(400).json({
@@ -128,7 +128,7 @@ app.get('/api/customer/:id/address', async (req, res) => {
   }  
 });
 
-app.post('/api/customer/:id/:address', async (req, res) => {
+app.post('/api/customer/:id/address', async (req, res) => {
   console.log(req.params,req.body);
   if(!req.body.address){
     res.status(400).json({
@@ -152,6 +152,8 @@ app.post('/api/customer/:id/:address', async (req, res) => {
     return;
   }
 });
+
+
 
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
