@@ -153,7 +153,23 @@ app.post('/api/customer/:id/address', async (req, res) => {
   }
 });
 
-
+app.post('/api/customer/:id/delete', async (req, res) => {
+  console.log(req.params,req.body);
+  try {
+    let customerWithId = await db.updateCustomer(req.params.id,{name:undefined,address:undefined,status:'deleted'});
+    res.json({
+      success:true,
+      customer:customerWithId
+    });
+  }catch(err){
+    res.status(400).json({
+      success:false,
+      error:err,
+      message:"failed to update customer"
+    });
+    return;
+  }
+});
 
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
