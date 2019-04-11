@@ -51,11 +51,25 @@ app.post('/api/customer/', async (req, res) => {
     });
     return;
   }
-  
 });
 
 app.get('/api/customer/:id/name', async (req, res) => {
-  console.log(req.params,req.query);  
+  console.log(req.params,req.query);
+  try {
+    let customer = await db.getCustomer(req.params.id);
+    res.json({
+      success:true,
+      name:customer.name
+    });
+    console.log(customer);
+  }catch(err){
+    res.status(400).json({
+      success:false,
+      error:err,
+      message:"failed to get customer info"
+    });
+    return;
+  }    
 });
 
 app.post('/api/customer/:id/:name', async (req, res) => {
@@ -63,11 +77,26 @@ app.post('/api/customer/:id/:name', async (req, res) => {
 });
 
 app.get('/api/customer/:id/address', async (req, res) => {
-  console.log(req.params,req.query);  
+  console.log(req.params,req.query); 
+  try {
+    let customer = await db.getCustomer(req.params.id);
+    res.json({
+      success:true,
+      address:customer.address
+    });
+    console.log(customer);
+  }catch(err){
+    res.status(400).json({
+      success:false,
+      error:err,
+      message:"failed to get customer info"
+    });
+    return;
+  }  
 });
 
 app.post('/api/customer/:id/:address', async (req, res) => {
-  console.log(req.params,req.body);  
+  console.log(req.params,req.body);
 });
 
 
