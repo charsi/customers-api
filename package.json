@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "forever": "npx forever start ./app.js"
+    "forever": "npx forever start -w ./app.js"
   },
   "author": "",
   "license": "ISC",
