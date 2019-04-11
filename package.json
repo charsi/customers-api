@@ -4,8 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start":"node ./app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "forever": "npx forever start ./app.js"
   },
   "author": "",
   "license": "ISC",
@@ -14,5 +15,8 @@
     "express": "^4.16.4",
     "helmet": "^3.16.0",
     "nedb": "^1.8.0"
+  },
+  "devDependencies": {
+    "forever": "^1.0.0"
   }
 }
