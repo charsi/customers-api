@@ -7,14 +7,23 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 
+const log = require('simple-node-logger').createSimpleLogger('logs.log');
+
 app.use(helmet());
 app.use(bodyParser.json());
 
 const db = require('./lib/db');
 
+//custom Middleware for logging the each request going to the API
+app.use((req,res,next) => {
+  if (Object.keys(req.body).length > 0) {log.info(req.body)};
+  if (Object.keys(req.params).length) {log.info(req.params)};
+  if(Object.keys(req.query).length) {log.info(req.query)};
+  log.info(`Received a ${req.method} request from ${req.ip} for             ${req.url}`);
+next();
+});
 
 app.get('/api/customer/:id', async (req, res) => {
-  console.log(req.params,req.query);
   try {
     let customer = await db.getCustomer(req.params.id);
     res.json({
@@ -34,7 +43,6 @@ app.get('/api/customer/:id', async (req, res) => {
 });
 
 app.post('/api/customer/', async (req, res) => {
-  console.log(req.params,req.body);
   try {
     let customerWithId = await db.createCustomer(req.body['customer']);
     res.json({
@@ -52,7 +60,6 @@ app.post('/api/customer/', async (req, res) => {
 });
 
 app.get('/api/customer/:id/name', async (req, res) => {
-  console.log(req.params,req.query);
   try {
     let customer = await db.getCustomer(req.params.id);
     if(!customer.name){
@@ -66,7 +73,6 @@ app.get('/api/customer/:id/name', async (req, res) => {
       success:true,
       name:customer.name
     });
-    console.log(customer);
   }catch(err){
     res.status(400).json({
       success:false,
@@ -78,7 +84,6 @@ app.get('/api/customer/:id/name', async (req, res) => {
 });
 
 app.post('/api/customer/:id/name', async (req, res) => {
-  console.log(req.params,req.body);
   if(!req.body.name){
     res.status(400).json({
       success:false,
@@ -103,7 +108,6 @@ app.post('/api/customer/:id/name', async (req, res) => {
 });
 
 app.get('/api/customer/:id/address', async (req, res) => {
-  console.log(req.params,req.query); 
   try {
     let customer = await db.getCustomer(req.params.id);
     if(!customer.address){
@@ -117,7 +121,6 @@ app.get('/api/customer/:id/address', async (req, res) => {
       success:true,
       address:customer.address
     });
-    console.log(customer);
   }catch(err){
     res.status(400).json({
       success:false,
@@ -129,7 +132,6 @@ app.get('/api/customer/:id/address', async (req, res) => {
 });
 
 app.post('/api/customer/:id/address', async (req, res) => {
-  console.log(req.params,req.body);
   if(!req.body.address){
     res.status(400).json({
       success:false,
@@ -154,7 +156,6 @@ app.post('/api/customer/:id/address', async (req, res) => {
 });
 
 app.post('/api/customer/:id/delete', async (req, res) => {
-  console.log(req.params,req.body);
   try {
     let customerWithId = await db.updateCustomer(req.params.id,{name:undefined,address:undefined,status:'deleted'});
     res.json({
@@ -172,4 +173,4 @@ app.post('/api/customer/:id/delete', async (req, res) => {
 });
 
 
-app.listen(port, () => console.log(`App listening on port ${port}!`));
+app.listen(port, () => log.info(`App listening on port ${port}!`));

@@ -14,7 +14,8 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "helmet": "^3.16.0",
-    "nedb": "^1.8.0"
+    "nedb": "^1.8.0",
+    "simple-node-logger": "^18.12.22"
   },
   "devDependencies": {
     "forever": "^1.0.0"
