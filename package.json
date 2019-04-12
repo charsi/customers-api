@@ -18,6 +18,9 @@
     "simple-node-logger": "^18.12.22"
   },
   "devDependencies": {
-    "forever": "^1.0.0"
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
+    "forever": "^1.0.0",
+    "mocha": "^6.1.3"
   }
 }
