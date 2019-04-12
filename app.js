@@ -23,14 +23,13 @@ app.use((req,res,next) => {
 next();
 });
 
-app.get('/api/customer/', async (req, res) => {
+app.get('/api/customer', async (req, res) => {
   try {
     let customers = await db.getCustomers();
     res.json({
       success:true,
-      customers:customer
+      customers:customers
     });
-    console.log(customer);
   }catch(err){
     res.status(400).json({
       success:false,
@@ -48,7 +47,6 @@ app.get('/api/customer/:id', async (req, res) => {
       success:true,
       customer:customer
     });
-    console.log(customer);
   }catch(err){
     res.status(400).json({
       success:false,
@@ -191,4 +189,6 @@ app.post('/api/customer/:id/delete', async (req, res) => {
 });
 
 
-app.listen(port, () => log.info(`App listening on port ${port}!`));
+const server= app.listen(port, () => log.info(`App listening on port ${port}!`));
+
+module.exports = server
