@@ -75,29 +75,6 @@ app.post('/api/customer/', async (req, res) => {
   }
 });
 
-app.get('/api/customer/:id/name', async (req, res) => {
-  try {
-    let customer = await db.getCustomer(req.params.id);
-    if(!customer.name){
-      res.status(400).json({
-        success:false,
-        message:"Customer has no name"
-      });
-      return;
-    }
-    res.json({
-      success:true,
-      name:customer.name
-    });
-  }catch(err){
-    res.status(400).json({
-      success:false,
-      error:err,
-      message:"failed to get customer info"
-    });
-    return;
-  }    
-});
 
 app.post('/api/customer/:id/name', async (req, res) => {
   if(!req.body.name){
@@ -123,29 +100,6 @@ app.post('/api/customer/:id/name', async (req, res) => {
   }
 });
 
-app.get('/api/customer/:id/address', async (req, res) => {
-  try {
-    let customer = await db.getCustomer(req.params.id);
-    if(!customer.address){
-      res.status(400).json({
-        success:false,
-        message:"Customer has no address"
-      });
-      return;
-    }
-    res.json({
-      success:true,
-      address:customer.address
-    });
-  }catch(err){
-    res.status(400).json({
-      success:false,
-      error:err,
-      message:"Failed to get customer info"
-    });
-    return;
-  }  
-});
 
 app.post('/api/customer/:id/address', async (req, res) => {
   if(!req.body.address){
