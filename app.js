@@ -23,6 +23,24 @@ app.use((req,res,next) => {
 next();
 });
 
+app.get('/api/customer/', async (req, res) => {
+  try {
+    let customers = await db.getCustomers();
+    res.json({
+      success:true,
+      customers:customer
+    });
+    console.log(customer);
+  }catch(err){
+    res.status(400).json({
+      success:false,
+      error:err,
+      message:"failed to get customer info"
+    });
+    return;
+  }  
+});
+
 app.get('/api/customer/:id', async (req, res) => {
   try {
     let customer = await db.getCustomer(req.params.id);
