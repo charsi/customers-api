@@ -113,8 +113,22 @@ describe('Customers', () => {
     let customer = {name: "Ryan",address: {street_address: "999 Night Stalker Road",
         postal_code: "12345",country: "US"}
     }
-    await db.createCustomer(customer);
-   
+    it('it should GET customer by id', (done) => {
+      db.createCustomer(customer).then(()=>{
+        chai.request(app)
+        .post('/api/customer/1/delete')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('success');
+          res.body.success.should.be.eql(true);
+          res.body.should.have.property('customer');
+          res.body.customer.should.not.have.property('name');
+          res.body.customer.should.not.have.property('address'); 
+          done();
+        });
+      });
+    });   
   });
   
 
